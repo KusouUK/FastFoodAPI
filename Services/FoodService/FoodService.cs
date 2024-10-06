@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FastFoodAPI.DataObjects;
+using FastFoodAPI.DataObjects.Food;
 using FastFoodAPI.Models;
 
 namespace FastFoodAPI.Services.FoodService
@@ -16,7 +16,7 @@ namespace FastFoodAPI.Services.FoodService
             _mapper = mapper;
         }
 
-        public List<Food> FoodList = new List<Food>()
+        private static List<Food> foods = new List<Food>()
         {
             new Food() { Id = 0, Name = "Burguer", Price = 15 }
         };
@@ -26,7 +26,15 @@ namespace FastFoodAPI.Services.FoodService
         {
             var response = new ServiceResponse<List<GetFoodResponse>>();
 
-            response.Data = FoodList.Select(_mapper.Map<GetFoodResponse>).ToList();
+            try
+            {
+                response.Data = foods.Select(_mapper.Map<GetFoodResponse>).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Ok = false;
+                response.Message = e.Message;
+            }
 
             return response;
         }
@@ -34,17 +42,75 @@ namespace FastFoodAPI.Services.FoodService
         public async Task<ServiceResponse<GetFoodResponse>> GetFoodById(int id)
         {
             var response = new ServiceResponse<GetFoodResponse>();
-            var food = FoodList.FirstOrDefault(food => food.Id == id);
 
-            if (food is null)
+            try
+            {
+                var food = foods.FirstOrDefault(food => food.Id == id);
+
+                if (food is null)
+                {
+                    response.Ok = false;
+                    response.Message = "The food item was not found.";
+                    return response;
+                }
+
+                response.Data = _mapper.Map<GetFoodResponse>(food);
+                response.Message = $"Here is the item of id {food.Id}, {food.Name}.";
+
+            }
+            catch (Exception e)
             {
                 response.Ok = false;
-                response.Message = "The food item was not found.";
-                return response;
+                response.Message = e.Message;
             }
 
-            response.Data = _mapper.Map<GetFoodResponse>(food);
-            response.Message = $"Here is the item of id {food.Id}, {food.Name}.";
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<AddFoodResponse>>> AddFood(AddFoodRequest newFood)
+        {
+            var response = new ServiceResponse<List<AddFoodResponse>>();
+
+            try
+            {
+                foods.Add(_mapper.Map<Food>(newFood));
+
+                response.Data = foods.Select(_mapper.Map<AddFoodResponse>).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Ok = false;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<RemoveFoodResponse>>> RemoveFood(int id)
+        {
+            var response = new ServiceResponse<List<RemoveFoodResponse>>();
+
+            try
+            {
+                var food = foods.FirstOrDefault(f => f.Id == id);
+
+                if (food is null)
+                {
+                    response.Ok = false;
+                    response.Message = "Food not found";
+                    return response;
+                }
+
+                foods.Remove(food);
+                
+                response.Data = foods.Select(_mapper.Map<RemoveFoodResponse>).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Ok = false;
+                response.Message = e.Message;
+            }
+
             return response;
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FastFoodAPI.DataObjects;
+using FastFoodAPI.DataObjects.Food;
 using FastFoodAPI.Models;
 
 namespace FastFoodAPI
@@ -14,6 +14,9 @@ namespace FastFoodAPI
         {
             CreateMap<Food, GetFoodResponse>();
             CreateMap<GetFoodResponse, Food>();
+            CreateMap<AddFoodRequest, Food>();
+            CreateMap<Food, AddFoodResponse>();
+            CreateMap<Food, RemoveFoodResponse>();
         }
     }
 }

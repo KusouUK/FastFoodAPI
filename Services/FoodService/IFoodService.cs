@@ -1,4 +1,4 @@
-using FastFoodAPI.DataObjects;
+using FastFoodAPI.DataObjects.Food;
 using FastFoodAPI.Models;
 
 namespace FastFoodAPI.Services.FoodService
@@ -7,5 +7,7 @@ namespace FastFoodAPI.Services.FoodService
     {
         Task<ServiceResponse<List<GetFoodResponse>>> GetFoods();
         Task<ServiceResponse<GetFoodResponse>> GetFoodById(int id);
+        Task<ServiceResponse<List<AddFoodResponse>>> AddFood(AddFoodRequest newFood);
+        Task<ServiceResponse<List<RemoveFoodResponse>>> RemoveFood(int id);
     }
 }
