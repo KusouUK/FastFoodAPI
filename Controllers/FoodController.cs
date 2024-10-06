@@ -55,7 +55,7 @@ namespace FastFoodAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<List<RemoveFoodResponse>>>> RemoveFood(int id)
         {
             var response = await _foodService.RemoveFood(id);
