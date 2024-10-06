@@ -1,3 +1,7 @@
+global using FastFoodAPI.Models;
+
+global using FastFoodAPI.Services.FoodService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IFoodService, FoodService>();
 
 var app = builder.Build();
 
