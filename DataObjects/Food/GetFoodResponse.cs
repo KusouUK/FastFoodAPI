@@ -10,7 +10,7 @@ namespace FastFoodAPI.DataObjects.Food
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string Description { get; set; } = "Description was not set.";
         public FoodTypes Type { get; set; }
     }
