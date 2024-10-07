@@ -129,7 +129,26 @@ namespace FastFoodAPI.Services.FoodService
                     return response;
                 }
 
-                _mapper.Map(updatedFood, food);    
+                if (updatedFood.Name != null)
+                {
+                    food.Name = updatedFood.Name;
+                }
+                
+                if (updatedFood.Price != null)
+                {
+                    food.Price = updatedFood.Price.Value;
+                }
+                
+                if (updatedFood.Description != null)
+                {
+                    food.Description = updatedFood.Description;
+                }
+                
+                if (updatedFood.Type != null)
+                {
+                    food.Type = updatedFood.Type.Value;
+                }
+                
                 response.Data = _mapper.Map<UpdateFoodResponse>(food);
             }
             catch (Exception e)

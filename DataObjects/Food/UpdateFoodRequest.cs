@@ -7,9 +7,9 @@ namespace FastFoodAPI.DataObjects.Food
 {
     public class UpdateFoodRequest
     {
-        public required string Name { get; set; }
-        public required int Price { get; set; }
-        public string Description { get; set; } = "Description was not set";
-        public FoodTypes Type { get; set; } = FoodTypes.Burguer;
+        public string? Name { get; set; }
+        public int? Price { get; set; }
+        public string? Description { get; set; }
+        public FoodTypes? Type { get; set; }
     }
 }
