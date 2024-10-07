@@ -12,5 +12,6 @@ namespace FastFoodAPI.Models
         public double Price { get; set; }
         public string Description { get; set; } = "Description was not set.";
         public FoodTypes Type { get; set; } = FoodTypes.Burguer;
+        public List<Order>? Orders { get; set; }
     }
 }

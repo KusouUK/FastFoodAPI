@@ -21,5 +21,7 @@ namespace FastFoodAPI.Data
         }
 
         public DbSet<Food> Foods => Set<Food>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Order> Orders => Set<Order>();
     }
 }
