@@ -9,6 +9,6 @@ namespace FastFoodAPI.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public Order? Orders { get; set; }
+        public List<Order>? Orders { get; set; }
     }
 }

@@ -19,12 +19,6 @@ namespace FastFoodAPI.Services.FoodService
             _context = context;
         }
 
-        // private static List<Food> foods = new List<Food>()
-        // {
-        //     new Food() { Id = 0, Name = "Burguer", Price = 15 }
-        // };
-
-
         public async Task<ServiceResponse<List<GetFoodResponse>>> GetFoods()
         {
             var response = new ServiceResponse<List<GetFoodResponse>>();

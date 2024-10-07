@@ -1,6 +1,7 @@
 global using FastFoodAPI.Models;
 global using FastFoodAPI.Data;
 global using FastFoodAPI.Services.FoodService;
+global using FastFoodAPI.Services.OrderService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 

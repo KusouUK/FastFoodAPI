@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FastFoodAPI.DataObjects.Food;
+using FastFoodAPI.DataObjects.Order;
 using FastFoodAPI.Models;
 
 namespace FastFoodAPI
@@ -19,6 +20,7 @@ namespace FastFoodAPI
             CreateMap<Food, RemoveFoodResponse>();
             CreateMap<UpdateFoodRequest, Food>();
             CreateMap<Food, UpdateFoodResponse>();
+            CreateMap<Food, AddOrderResponse>();
         }
     }
 }
