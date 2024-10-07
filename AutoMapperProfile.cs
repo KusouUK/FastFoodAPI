@@ -17,6 +17,8 @@ namespace FastFoodAPI
             CreateMap<AddFoodRequest, Food>();
             CreateMap<Food, AddFoodResponse>();
             CreateMap<Food, RemoveFoodResponse>();
+            CreateMap<UpdateFoodRequest, Food>();
+            CreateMap<Food, UpdateFoodResponse>();
         }
     }
 }

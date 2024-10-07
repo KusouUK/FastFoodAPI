@@ -66,5 +66,17 @@ namespace FastFoodAPI.Controllers
             }
             return Ok(response);
         }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult<ServiceResponse<UpdateFoodResponse>>> UpdateFood(int id, UpdateFoodRequest updatedFood)
+        {
+            var response = await _foodService.UpdateFood(id, updatedFood);
+
+            if (!response.Ok)
+            {
+                return NotFound(response);
+            }
+            return response;
+        }
     }
 }

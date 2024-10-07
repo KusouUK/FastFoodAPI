@@ -9,5 +9,6 @@ namespace FastFoodAPI.Services.FoodService
         Task<ServiceResponse<GetFoodResponse>> GetFoodById(int id);
         Task<ServiceResponse<List<AddFoodResponse>>> AddFood(AddFoodRequest newFood);
         Task<ServiceResponse<List<RemoveFoodResponse>>> RemoveFood(int id);
+        Task<ServiceResponse<UpdateFoodResponse>> UpdateFood(int id, UpdateFoodRequest updatedFood);
     }
 }

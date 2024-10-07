@@ -97,12 +97,12 @@ namespace FastFoodAPI.Services.FoodService
                 if (food is null)
                 {
                     response.Ok = false;
-                    response.Message = "Food not found";
+                    response.Message = "The food with the provided id was not found.";
                     return response;
                 }
 
                 foods.Remove(food);
-                
+
                 response.Data = foods.Select(_mapper.Map<RemoveFoodResponse>).ToList();
             }
             catch (Exception e)
@@ -113,5 +113,33 @@ namespace FastFoodAPI.Services.FoodService
 
             return response;
         }
+
+        public async Task<ServiceResponse<UpdateFoodResponse>> UpdateFood(int id, UpdateFoodRequest updatedFood)
+        {
+            var response = new ServiceResponse<UpdateFoodResponse>();
+
+            try
+            {
+                var food = foods.FirstOrDefault(f => f.Id == id);
+
+                if (food is null)
+                {
+                    response.Ok = false;
+                    response.Message = "The food with the provided id was not found.";
+                    return response;
+                }
+
+                _mapper.Map(updatedFood, food);    
+                response.Data = _mapper.Map<UpdateFoodResponse>(food);
+            }
+            catch (Exception e)
+            {
+                response.Ok = false;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+
     }
 }
