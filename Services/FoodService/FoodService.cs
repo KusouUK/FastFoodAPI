@@ -5,21 +5,24 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FastFoodAPI.DataObjects.Food;
 using FastFoodAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodAPI.Services.FoodService
 {
     public class FoodService : IFoodService
     {
         private readonly IMapper _mapper;
-        public FoodService(IMapper mapper)
+        private readonly DataContext _context;
+        public FoodService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
 
-        private static List<Food> foods = new List<Food>()
-        {
-            new Food() { Id = 0, Name = "Burguer", Price = 15 }
-        };
+        // private static List<Food> foods = new List<Food>()
+        // {
+        //     new Food() { Id = 0, Name = "Burguer", Price = 15 }
+        // };
 
 
         public async Task<ServiceResponse<List<GetFoodResponse>>> GetFoods()
@@ -28,7 +31,7 @@ namespace FastFoodAPI.Services.FoodService
 
             try
             {
-                response.Data = foods.Select(_mapper.Map<GetFoodResponse>).ToList();
+                response.Data = await _context.Foods.Select(f => _mapper.Map<GetFoodResponse>(f)).ToListAsync();
             }
             catch (Exception e)
             {
@@ -45,7 +48,7 @@ namespace FastFoodAPI.Services.FoodService
 
             try
             {
-                var food = foods.FirstOrDefault(food => food.Id == id);
+                var food = await _context.Foods.FirstOrDefaultAsync(food => food.Id == id);
 
                 if (food is null)
                 {
@@ -73,9 +76,10 @@ namespace FastFoodAPI.Services.FoodService
 
             try
             {
-                foods.Add(_mapper.Map<Food>(newFood));
+                _context.Foods.Add(_mapper.Map<Food>(newFood));
+                await _context.SaveChangesAsync();
 
-                response.Data = foods.Select(_mapper.Map<AddFoodResponse>).ToList();
+                response.Data = await _context.Foods.Select(f => _mapper.Map<AddFoodResponse>(f)).ToListAsync();
             }
             catch (Exception e)
             {
@@ -92,7 +96,7 @@ namespace FastFoodAPI.Services.FoodService
 
             try
             {
-                var food = foods.FirstOrDefault(f => f.Id == id);
+                var food = await _context.Foods.FirstOrDefaultAsync(f => f.Id == id);
 
                 if (food is null)
                 {
@@ -101,9 +105,10 @@ namespace FastFoodAPI.Services.FoodService
                     return response;
                 }
 
-                foods.Remove(food);
+                _context.Foods.Remove(food);
+                await _context.SaveChangesAsync();
 
-                response.Data = foods.Select(_mapper.Map<RemoveFoodResponse>).ToList();
+                response.Data = await _context.Foods.Select(f => _mapper.Map<RemoveFoodResponse>(f)).ToListAsync();
             }
             catch (Exception e)
             {
@@ -120,7 +125,7 @@ namespace FastFoodAPI.Services.FoodService
 
             try
             {
-                var food = foods.FirstOrDefault(f => f.Id == id);
+                var food = await _context.Foods.FirstOrDefaultAsync(f => f.Id == id);
 
                 if (food is null)
                 {
@@ -149,6 +154,7 @@ namespace FastFoodAPI.Services.FoodService
                     food.Type = updatedFood.Type.Value;
                 }
                 
+                await _context.SaveChangesAsync();
                 response.Data = _mapper.Map<UpdateFoodResponse>(food);
             }
             catch (Exception e)
@@ -159,6 +165,5 @@ namespace FastFoodAPI.Services.FoodService
 
             return response;
         }
-
     }
 }
