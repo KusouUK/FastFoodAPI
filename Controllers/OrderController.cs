@@ -26,7 +26,7 @@ namespace FastFoodAPI.Controllers
             }
 
             var response = await _orderService.AddOrder(userId, addOrder.FoodIds);
-            Console.WriteLine(addOrder.FoodIds[0]);
+
             if (!response.Ok)
             {
                 return NotFound(response);

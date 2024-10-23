@@ -16,7 +16,6 @@ namespace FastFoodAPI.Services.OrderService
         public OrderService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
-
             _context = context;
         }
 
@@ -34,7 +33,7 @@ namespace FastFoodAPI.Services.OrderService
 
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Id == userId);
-
+                
                 if (foods.Count == 0 || user is null)
                 {
                     response.Ok = false;
@@ -44,6 +43,7 @@ namespace FastFoodAPI.Services.OrderService
 
                 var order = await _context.Orders
                     .Include(o => o.Foods)
+                    .Include(o => o.User)
                     .FirstOrDefaultAsync(o => o.UserId == userId);
 
                 if (order is null)
